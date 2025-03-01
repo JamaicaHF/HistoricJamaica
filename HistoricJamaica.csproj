@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3AE5A720-C000-4D87-BB4C-0079820EA64C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>HistoricJamaica</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>HistoricJamaica</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>Z:\JHF\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>\\jhfserver\JHFHistory\JHF\HistoricJamaica\</InstallUrl>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>917728893F05903CAC327235345116CFE13D6638</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>HistoricJamaica_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus">
+      <HintPath>epplus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Age.cs" />
+    <Compile Include="Classes\BuildingNotes.cs" />
+    <Compile Include="Classes\CListboxGroup.cs">
+    </Compile>
+    <Compile Include="Classes\CCheckedListboxCensus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\EPPlus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImportSchoolRecords.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\ImportExportEPPlus.cs" />
+    <Compile Include="Classes\ImportExport\CNemrcExtract.cs" />
+    <Compile Include="Classes\ImportExport\WriteGrandListImportReport.cs" />
+    <Compile Include="Classes\Integration\IntegrateCemeteryRecord.cs" />
+    <Compile Include="Classes\Integration\IntegratePersonCW.cs" />
+    <Compile Include="Classes\GridDataView\CGridCemeteryRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridSchoolRecords.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridStudentRecords.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridPersonCW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImportModernRoadValues.cs" />
+    <Compile Include="Classes\ImportExport\CImportNicknames.cs" />
+    <Compile Include="Classes\ImportExport\CImportPersonCWRecords.cs" />
+    <Compile Include="Classes\ImportExport\ImportCemeteryWorkbook.cs" />
+    <Compile Include="Classes\Integration\IntegrateSchoolRecord.cs" />
+    <Compile Include="Classes\Integration\Integration.cs" />
+    <Compile Include="Classes\PersonName.cs" />
+    <Compile Include="Classes\QRCodes.cs" />
+    <Compile Include="Classes\UtilitiesDateYMD.cs" />
+    <Compile Include="Forms\FCemeteryRecord\FCemeteryRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FCemeteryRecord\FCemeteryRecord.Designer.cs">
+      <DependentUpon>FCemeteryRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FSearchForPerson\FSearchForPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FSearchForPerson\FSearchForPerson.Designer.cs">
+      <DependentUpon>FSearchForPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FPhotoViewer\FPhotoViewer.Designer.cs">
+      <DependentUpon>FPhotoViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FTestHistoricJamaica\TestHistoricJamaicaFVitalRecord.cs" />
+    <Compile Include="Classes\Integration\IntegrateVitalRecord.cs" />
+    <Compile Include="TestUtilities.cs" />
+    <Compile Include="Classes\Utilities.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridGroupValuesCollections.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridGroupValuesModernRoads.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridRoadBuildings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImportCemetery.cs">
+    </Compile>
+    <Compile Include="Classes\CCopyDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridGroupValuesCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImport.cs">
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridGroupValues.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\CCheckedListboxCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridModernRoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridGroupValuesBuilding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImportGedcom.cs">
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridCemetery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridVitalRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridAlternateSpellings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\ImportExport\CImportGrandList.cs" />
+    <Compile Include="Classes\CPersonFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\CFamilyMoveAllToDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\CPhotoViewerAddMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\CMain.cs">
+    </Compile>
+    <Compile Include="Classes\ImportExport\CExportSQL.cs" />
+    <Compile Include="Classes\ImportExport\CExportBuilding.cs" />
+    <Compile Include="Forms\FNotes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FBuildingItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FImportPhotos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FFamilyTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FFamily.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\GridDataView\CGridPhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FCheckedListboxGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPerson\FPerson.Designer.cs">
+      <DependentUpon>FPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FPerson\FPersonData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FSpouseLivedWith.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPaintPhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPhotoViewer\FPhotoViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FHistoricJamaica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPerson\FPerson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPhotoFullSize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FTestHistoricJamaica\TestHistoricJamaicaFPerson.cs">
+    </Compile>
+    <Compile Include="Forms\FVitalRecords\FVitalRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FTestHistoricJamaica\FTestHistoricJamaica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FTestHistoricJamaica\FTestHistoricJamaica.Designer.cs">
+      <DependentUpon>FTestHistoricJamaica.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FVitalRecords\FVitalRecord.Designer.cs">
+      <DependentUpon>FVitalRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Forms\FCemeteryRecord\FCemeteryRecord.resx">
+      <DependentUpon>FCemeteryRecord.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FSearchForPerson\FSearchForPerson.resx">
+      <DependentUpon>FSearchForPerson.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FNotes.resx">
+      <DependentUpon>FNotes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FBuildingItem.resx">
+      <DependentUpon>FBuildingItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FImportPhotos.resx">
+      <DependentUpon>FImportPhotos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FCheckedListboxGroup.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FCheckedListboxGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFamily.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FFamily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFamilyTree.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FFamilyTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FGrid.resx">
+      <DependentUpon>FGrid.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FPerson\FPerson.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FPhotoFullSize.resx">
+      <DependentUpon>FPhotoFullSize.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FPhotoViewer\FPhotoViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FPhotoViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FVitalRecords\FVitalRecord.resx">
+      <DependentUpon>FVitalRecord.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FHistoricJamaica.resx">
+      <DependentUpon>FHistoricJamaica.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FSpouseLivedWith.resx">
+      <DependentUpon>FSpouseLivedWith.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FTestHistoricJamaica\FTestHistoricJamaica.resx">
+      <DependentUpon>FTestHistoricJamaica.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="HistoricJamaica_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SQL_Library\SQL_Library.csproj">
+      <Project>{a5bb7c71-d39d-47ae-b728-c887702940d0}</Project>
+      <Name>SQL_Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>RD /S /Q "$(ProjectDir)$(baseIntermediateOutputPath)\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
