@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A5BB7C71-D39D-47AE-B728-C887702940D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SQL_Server</RootNamespace>
+    <AssemblyName>SQL_Library</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Census\Census.cs" />
+    <Compile Include="Classes\Census\CensusCheckBox.cs" />
+    <Compile Include="Classes\Census\CensusCheckBoxPerson.cs" />
+    <Compile Include="Classes\PersonData.cs" />
+    <Compile Include="Excel\ExcelTools.cs" />
+    <Compile Include="Excel\ImportGrandList.cs" />
+    <Compile Include="SQLBuildingOccupant\SQLBuildingOccupantUpdate.cs" />
+    <Compile Include="SQLBuildingOccupant\SQLBuildingOccupant.cs" />
+    <Compile Include="SQLBuildingOccupant\SQLBuildingOccupantDeleteInsert.cs" />
+    <Compile Include="SQLBuildingOccupant\SQLBuildingOccupantSearch.cs" />
+    <Compile Include="SQLPerson\SQLPersonUpdate.cs" />
+    <Compile Include="SQLSchool.cs" />
+    <Compile Include="SQLSearch.cs" />
+    <Compile Include="SQLAlternativeSpellings\SQLAlternativeSpellingsDelete.cs" />
+    <Compile Include="SQLAlternativeSpellings\SQLAlternativeSpellings.cs" />
+    <Compile Include="SQLAlternativeSpellings\SQLAlternativeSpellingsCreate.cs" />
+    <Compile Include="SQLAlternativeSpellings\SQLAlternativeSpellingsUpdate.cs" />
+    <Compile Include="SQLArticle\SQLArticle.cs" />
+    <Compile Include="SqlBuildingValue\SQLBuildingValueCreate.cs" />
+    <Compile Include="SqlBuildingValue\SQLBuildingValueUpdate.cs" />
+    <Compile Include="SqlBuildingValue\SQLBuildingValueDelete.cs" />
+    <Compile Include="SqlBuildingValue\SqlBuildingValue.cs" />
+    <Compile Include="SqlBuildingValue\SQLBuildingValueSearch.cs" />
+    <Compile Include="SQLBuilding\SqlBuildingUpdate.cs" />
+    <Compile Include="SQLBuilding\SqlBuildingDelete.cs" />
+    <Compile Include="SQLBuilding\SqlBuildingSearch.cs" />
+    <Compile Include="SQLBuilding\SqlBuildingCreate.cs" />
+    <Compile Include="SQLBuilding\SqlBuilding.cs" />
+    <Compile Include="SQLCategory\SQLCategoryUpdate.cs" />
+    <Compile Include="SQLCategory\SQLCategoryCreate.cs" />
+    <Compile Include="SQLCategory\SQLCategorySearch.cs" />
+    <Compile Include="SQLCategory\SQLCategory.cs" />
+    <Compile Include="SQLCategoryValue\SQLCategoryValueUpdate.cs" />
+    <Compile Include="SQLCategoryValue\SQLCategoryValueDelete.cs" />
+    <Compile Include="SQLCategoryValue\SQLCategoryValue.cs" />
+    <Compile Include="SQLCategoryValue\SQLCategoryValueCreate.cs" />
+    <Compile Include="SQLCategoryValue\SQLCategoryValueSearch.cs" />
+    <Compile Include="SQLCemetery\SqlCemeteryRecordSearch.cs" />
+    <Compile Include="SQLCemetery\SqlCemeteryCreate.cs" />
+    <Compile Include="SQLCemetery\SqlCemetery.cs" />
+    <Compile Include="SQLFirstName\SQLFirstName.cs" />
+    <Compile Include="SQLShowError.cs" />
+    <Compile Include="SQL.cs" />
+    <Compile Include="Classes\CPersonName.cs" />
+    <Compile Include="CPrintReport.cs" />
+    <Compile Include="Classes\CPersonRecord.cs" />
+    <Compile Include="CSql.cs" />
+    <Compile Include="CSqlCemetery.cs" />
+    <Compile Include="SQLGrandList\SqlGrandListDelete.cs" />
+    <Compile Include="SQLGrandList\SqlGrandListUpdtae.cs" />
+    <Compile Include="SQLGrandList\SqlGrandListSearch.cs" />
+    <Compile Include="SQLGrandList\SqlGrandListCreate.cs" />
+    <Compile Include="SQLGrandList\SqlGrandList.cs" />
+    <Compile Include="SQLMarriage\SQLMarriageDelete.cs" />
+    <Compile Include="SQLPerson\SQLPerson.cs" />
+    <Compile Include="SQLPhoto\SQLPhotoDelete.cs" />
+    <Compile Include="SQLPhoto\SQLPhotoSearch.cs" />
+    <Compile Include="SQLPhoto\SQLPhotoUpdate.cs" />
+    <Compile Include="SQLPhoto\SQLPhotoCreate.cs" />
+    <Compile Include="SQLPhoto\SQLPhoto.cs" />
+    <Compile Include="SQLPicturedBuilding\SQLPicturedBuildingSearch.cs" />
+    <Compile Include="SQLPicturedBuilding\SQLPicturedBuildingUpdate.cs" />
+    <Compile Include="SQLPicturedBuilding\SQLPicturedBuildingDelete.cs" />
+    <Compile Include="SQLPicturedBuilding\SQLPicturedBuildingCreate.cs" />
+    <Compile Include="SQLPicturedBuilding\SQLPicturedBuilding.cs" />
+    <Compile Include="SQLPicturedPerson\SQLPicturedPersonUpdate.cs" />
+    <Compile Include="SQLPicturedPerson\SQLPicturedPerson.cs" />
+    <Compile Include="SQLPicturedPerson\SQLPicturedPersonDelete.cs" />
+    <Compile Include="SQLPicturedPerson\SQLPicturedPersonCreate.cs" />
+    <Compile Include="SQLPicturedPerson\SQLPicturedPersonSearch.cs" />
+    <Compile Include="SQLUtilities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLAlternativeSpellings\SQLAlternativeSpellingsSearch.cs" />
+    <Compile Include="SQLMarriage\SQLMarrage.cs" />
+    <Compile Include="SQLMarriage\SQLMarrageCreate.cs" />
+    <Compile Include="SQLMarriage\SQLMarriageSearch.cs" />
+    <Compile Include="SQLMarriage\SQLMarriageUpdate.cs" />
+    <Compile Include="SQLPersonData\SQLPersonData.cs" />
+    <Compile Include="SQLPersonData\SQLPersonDataCreate.cs" />
+    <Compile Include="SQLPersonData\SQLPersonDataDelete.cs" />
+    <Compile Include="SQLPersonData\SQLPersonDataSearch.cs" />
+    <Compile Include="SQLPersonData\SQLPersonDataUpdate.cs" />
+    <Compile Include="SQLPerson\SQLPersonSearch.cs" />
+    <Compile Include="SqlVitalRecordIntegrate\SqlVitalRecordIntegrateDelete.cs" />
+    <Compile Include="SqlVitalRecordIntegrate\SqlVitalRecordIntegrateUpdate.cs" />
+    <Compile Include="SqlVitalRecordIntegrate\SqlVitalRecordIntegrateCreate.cs" />
+    <Compile Include="SqlVitalRecordIntegrate\SqlVitalRecordIntegrateSearch.cs" />
+    <Compile Include="SqlVitalRecordIntegrate\SqlVitalRecordIntegrate.cs" />
+    <Compile Include="SQLCemetery\SqlCemeteryRecord.cs" />
+    <Compile Include="SQLCemetery\SqlCemeteryRecordUpdate.cs" />
+    <Compile Include="SQLVitalRecords\SQLVitalRecordDelete.cs" />
+    <Compile Include="SQLVitalRecords\SqlVitalRecordSearch.cs" />
+    <Compile Include="SQLVitalRecords\SqlVitalRecordUpdate.cs" />
+    <Compile Include="SQLVitalRecords\SqlVitalRecordCreate.cs" />
+    <Compile Include="SQLVitalRecords\SqlVitalRecord.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>RD /S /Q "$(ProjectDir)$(baseIntermediateOutputPath)\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
