@@ -1,0 +1,13 @@
+drop table if exists alternativespellingsfirstname;
+drop table if exists alternativespellingslastname;
+drop table if exists building;
+drop table if exists buildingvalue;
+drop table if exists grandlist;
+drop table if exists marriage;
+drop table if exists modernroadvalue;
+drop table if exists person;
+drop table if exists personbuildingvalue;
+drop table if exists photo;
+drop table if exists picturedbuilding;
+drop table if exists picturedperson;
+drop table if exists vitalrecord;
