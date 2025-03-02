@@ -208,7 +208,6 @@
     </Compile>
     <Compile Include="Forms\FTestHistoricJamaica\TestHistoricJamaicaFVitalRecord.cs" />
     <Compile Include="Classes\Integration\IntegrateVitalRecord.cs" />
-    <Compile Include="TestUtilities.cs" />
     <Compile Include="Classes\Utilities.cs">
       <SubType>Component</SubType>
     </Compile>
