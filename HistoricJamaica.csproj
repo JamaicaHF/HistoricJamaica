@@ -200,7 +200,7 @@
     <Compile Include="Forms\FMsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FMsgBox.designer.cs">
+    <Compile Include="Forms\FMsgBox.Designer.cs">
       <DependentUpon>FMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FSearchForPerson\FSearchForPerson.cs">
