@@ -41,9 +41,9 @@ namespace HistoricJamaica
                     modernRoadValueTbl = SQL.GetAllModernRoadValues();
                     GetActivesInactives("Actives");
                     GetActivesInactives("Inactives");
-                    //CheckAllInactiveGrandlistRecords(grandListTbl);
-                    //WriteGrandListImportReport writeGrandListImportReport = new WriteGrandListImportReport();
-                    //writeGrandListImportReport.PrintReport(grandListHistoryTbl, grandListTbl);
+                    CheckAllInactiveGrandlistRecords(grandListTbl);
+                    WriteGrandListImportReport writeGrandListImportReport = new WriteGrandListImportReport();
+                    writeGrandListImportReport.PrintReport(grandListHistoryTbl, grandListTbl);
                     SaveImportTables();
                     MessageBox.Show("Import Complete");
                 }
@@ -163,8 +163,6 @@ namespace HistoricJamaica
         {
             CNemrcExtract nemrcExtract = new CNemrcExtract(epPlus, modernRoadValueTbl, rowIndex, ActiveStatus);
             string selectStatement = U.TaxMapID_col + " = '" + nemrcExtract.TaxMapID + "'";
-            if (nemrcExtract.Span == "324-101-11492")
-            { }
             //string selectStatement = U.Span_col + " = '" + nemrcExtract.Span + "'";
             DataRow[] foundRows = grandListTbl.Select(selectStatement);
             if (ExcludedProperty(nemrcExtract.Name1, nemrcExtract.Name2, nemrcExtract.TaxMapID, nemrcExtract.Owner))
@@ -178,9 +176,6 @@ namespace HistoricJamaica
             }
             if (foundRows.Length == 1)
             {
-                if (foundRows[0]["Span"].ToString() == "324-101-10478")
-                {
-                }
                 nemrcExtract.UpdateExistingGrandListRecord(grandListHistoryTbl, foundRows[0], year, ref previousGrandListId);
 
             }
