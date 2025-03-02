@@ -22,6 +22,7 @@ namespace HistoricJamaica
         ArrayList DeleteList = new ArrayList();
         DataTable grandListHistoryTbl;
         private EPPlus epPlus;
+        private int previousGrandListId = 0;
         //****************************************************************************************************************************
         public CImportGrandList(CSql Sql, string sDataDirectory)
             : base(Sql, sDataDirectory)
@@ -32,16 +33,17 @@ namespace HistoricJamaica
         {
             try
             {
-                grandListHistoryTbl = SQL.DefineGrandListHistoryTable();
+                grandListHistoryTbl = SQL.GetAllGrandListHistory();
+                //grandListHistoryTbl = SQL.DefineGrandListHistoryTable();
                 using (epPlus = new EPPlus())
                 {
                     grandListTbl = SQL.GetAllGrandList();
                     modernRoadValueTbl = SQL.GetAllModernRoadValues();
                     GetActivesInactives("Actives");
                     GetActivesInactives("Inactives");
-                    CheckAllInactiveGrandlistRecords(grandListTbl);
-                    WriteGrandListImportReport writeGrandListImportReport = new WriteGrandListImportReport();
-                    writeGrandListImportReport.PrintReport(grandListHistoryTbl, grandListTbl);
+                    //CheckAllInactiveGrandlistRecords(grandListTbl);
+                    //WriteGrandListImportReport writeGrandListImportReport = new WriteGrandListImportReport();
+                    //writeGrandListImportReport.PrintReport(grandListHistoryTbl, grandListTbl);
                     SaveImportTables();
                     MessageBox.Show("Import Complete");
                 }
@@ -128,6 +130,12 @@ namespace HistoricJamaica
         //****************************************************************************************************************************
         private void GetGrandListRecords(string filename, char ActiveStatus)
         {
+            int indexOf = filename.IndexOf(".xl") - 4;
+            string year = filename.Substring(indexOf, 4);
+            if (year.Substring(0,2) != "20")
+            {
+                throw new Exception("'" + filename + "' does not have a valid working year");
+            }
             epPlus.OpenWithEPPlus(filename);
             if (string.IsNullOrEmpty(filename))
             {
@@ -138,7 +146,9 @@ namespace HistoricJamaica
             {
                 try
                 {
-                    AddRecordToDatabase(rowIndex, ActiveStatus);
+                    //SetNamesTo2018(year.ToInt(), rowIndex, ActiveStatus);
+                    //UpdateHistory(year.ToInt() - 1, rowIndex, ActiveStatus, ref count);
+                    AddRecordToDatabase(year.ToInt() - 1, rowIndex, ActiveStatus);
                     rowIndex++;
                 }
                 catch (Exception ex)
@@ -149,9 +159,95 @@ namespace HistoricJamaica
             }
         }
         //****************************************************************************************************************************
-        private void AddRecordToDatabase(int rowIndex, char ActiveStatus)
+        private void AddRecordToDatabase(int year, int rowIndex, char ActiveStatus)
         {
             CNemrcExtract nemrcExtract = new CNemrcExtract(epPlus, modernRoadValueTbl, rowIndex, ActiveStatus);
+            string selectStatement = U.TaxMapID_col + " = '" + nemrcExtract.TaxMapID + "'";
+            if (nemrcExtract.Span == "324-101-11492")
+            { }
+            //string selectStatement = U.Span_col + " = '" + nemrcExtract.Span + "'";
+            DataRow[] foundRows = grandListTbl.Select(selectStatement);
+            if (ExcludedProperty(nemrcExtract.Name1, nemrcExtract.Name2, nemrcExtract.TaxMapID, nemrcExtract.Owner))
+            {
+                if (foundRows.Length == 1)
+                {
+                    foundRows[0].Delete();
+                    DeleteList.Add(nemrcExtract.TaxMapID);
+                }
+                return;
+            }
+            if (foundRows.Length == 1)
+            {
+                if (foundRows[0]["Span"].ToString() == "324-101-10478")
+                {
+                }
+                nemrcExtract.UpdateExistingGrandListRecord(grandListHistoryTbl, foundRows[0], year, ref previousGrandListId);
+
+            }
+            else if (nemrcExtract.VacantLand != '1')
+            {
+                DataRow grandListNewRow = grandListTbl.NewRow();
+                nemrcExtract.CreateNewGrandListRecord(grandListNewRow, ActiveStatus);
+                grandListTbl.Rows.Add(grandListNewRow);
+                VacantLand.Add(nemrcExtract.TaxMapID);
+            }
+            taxMapList.Add(nemrcExtract.TaxMapID);
+        }
+        //****************************************************************************************************************************
+        private void UpdateHistory(int year, int rowIndex, char ActiveStatus, ref int count)
+        {
+            CNemrcExtract nemrcExtract = new CNemrcExtract(epPlus, modernRoadValueTbl, rowIndex, ActiveStatus);
+            if (nemrcExtract.Span == "324-101-10145")
+            {
+            }
+            string selectStatement = "Span = '" + nemrcExtract.Span + "'";
+            DataRow[] grandListRows = grandListTbl.Select(selectStatement);
+            if (grandListRows.Length == 1)
+            {
+                DataRow GrandListRow = grandListRows[0];
+                string name1 = grandListRows[0]["Name1"].ToString();
+                name1 = nemrcExtract.CheckLastName(name1);
+                name1 = name1.Replace("'", "");
+                string name2 = grandListRows[0]["Name2"].ToString();
+                name2 = nemrcExtract.CheckLastName(name2);
+                name2 = name2.Replace("'", "");
+                int grandListId = grandListRows[0]["GrandListId"].ToInt();
+                string name1e = nemrcExtract.Name1;
+                name1e = nemrcExtract.CheckLastName(name1e);
+                name1e = name1e.Replace("'", "");
+                string name2e = nemrcExtract.Name2;
+                name2e = nemrcExtract.CheckLastName(name2e);
+                name2e = name2e.Replace("'", "");
+                if (name1.ToLower() != name1e.ToLower() ||
+                    name2.ToLower() != name2e.ToLower())
+                {
+                    selectStatement = "GrandListId = " + grandListId + " and Year = 0";
+                    DataRow[] GrandListHistoryRows = grandListHistoryTbl.Select(selectStatement);
+                    if (GrandListHistoryRows.Length > 1)
+                    {
+                    }
+                    if (GrandListHistoryRows.Length != 0)
+                    {
+                        GrandListHistoryRows[0]["Year"] = year;
+                        grandListRows[0]["Name1"] = GrandListHistoryRows[0]["Name1"];
+                        grandListRows[0]["Name2"] = GrandListHistoryRows[0]["Name2"];
+                        var state = grandListRows[0].RowState;
+                        count++;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+        }
+        //****************************************************************************************************************************
+        private void SetNamesTo2018(int year, int rowIndex, char ActiveStatus)
+        {
+            CNemrcExtract nemrcExtract = new CNemrcExtract(epPlus, modernRoadValueTbl, rowIndex, ActiveStatus, false);
+            if (nemrcExtract.Span == "324-101-10145")
+            {
+            }
             string selectStatement = U.TaxMapID_col + " = '" + nemrcExtract.TaxMapID + "'";
             //string selectStatement = U.Span_col + " = '" + nemrcExtract.Span + "'";
             DataRow[] foundRows = grandListTbl.Select(selectStatement);
@@ -166,20 +262,19 @@ namespace HistoricJamaica
             }
             if (foundRows.Length == 1)
             {
-                if (foundRows[0]["Span"].ToString() == "324-101-10513")
+                if (foundRows[0]["Span"].ToString() == "324-101-10478")
                 {
                 }
-                nemrcExtract.UpdateExistingGrandListRecord(grandListHistoryTbl, foundRows[0], 2019);
+                nemrcExtract.SetTo2018(foundRows[0], ActiveStatus);
+                if (foundRows[0].RowState != DataRowState.Unchanged)
+                {
+                    taxMapList.Add(nemrcExtract.TaxMapID);
+                }
+                else
+                {
 
+                }
             }
-            else if (nemrcExtract.VacantLand != '1')
-            {
-                DataRow grandListNewRow = grandListTbl.NewRow();
-                nemrcExtract.CreateNewGrandListRecord(grandListNewRow, ActiveStatus);
-                grandListTbl.Rows.Add(grandListNewRow);
-                VacantLand.Add(nemrcExtract.TaxMapID);
-            }
-            taxMapList.Add(nemrcExtract.TaxMapID);
         }
         //****************************************************************************************************************************
         private bool ExcludedProperty(string name1, string name2, string taxMapId, string owner)

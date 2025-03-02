@@ -25,6 +25,7 @@ namespace SQL_Library
             tbl.Columns.Add(U.BuildingRoadValueID_col, typeof(int));
             tbl.Columns.Add(U.ActiveStatus_col, typeof(char));
             tbl.Columns.Add(U.VacantLand_col, typeof(char));
+            tbl.Columns.Add(U.Address_col, typeof(string));
             SetGrandListVarcharColumnsMaxLength(tbl);
             return tbl;
         }
@@ -36,6 +37,7 @@ namespace SQL_Library
             tbl.Columns[U.StreetName_col].MaxLength = U.iMaxValueLength;
             tbl.Columns[U.Name1_col].MaxLength = U.iMaxValueLength;
             tbl.Columns[U.Name2_col].MaxLength = U.iMaxValueLength;
+            tbl.Columns[U.Address_col].MaxLength = U.iMaxAddressLength;
         }
         //****************************************************************************************************************************
         public static DataTable DefineGrandListHistoryTable()
@@ -107,11 +109,14 @@ namespace SQL_Library
         public static void InsertGrandListHistory(DataTable grandListHistoryTbl)
         {
             SqlTransaction txn = sqlConnection.BeginTransaction();
-            ArrayList fieldsModified = SetupFieldsModified();
+            ArrayList fieldsModified = new ArrayList();
+            fieldsModified.Add("Year");
             try
             {
                 SqlCommand insertCommand = InsertCommand(txn, grandListHistoryTbl, U.GrandListHistory_Table, false);
-                SQL.InsertWithDA(grandListHistoryTbl, insertCommand);
+                SqlCommand updateCommand = UpdateCommand(txn, grandListHistoryTbl.Columns, 
+                                                         U.GrandListHistory_Table, U.GrandListID_col, fieldsModified);
+                SQL.UpdateInsertWithDA(grandListHistoryTbl, updateCommand, insertCommand);
                 txn.Commit();
             }
             catch (Exception ex)

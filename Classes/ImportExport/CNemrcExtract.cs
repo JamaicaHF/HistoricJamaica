@@ -57,10 +57,11 @@ namespace HistoricJamaica
         public string DateHomestead;
         public char ActiveStatus;
         public char VacantLand;
+        public string CurrentAddress;
         private EPPlus epPlus;
         private DataTable modernRoadValueTbl;
         //****************************************************************************************************************************
-        public CNemrcExtract(EPPlus epPlus, DataTable modernRoadValueTbl, int rowIndex, char ActiveStatus)
+        public CNemrcExtract(EPPlus epPlus, DataTable modernRoadValueTbl, int rowIndex, char ActiveStatus, bool includeVacant=true)
         {
             this.epPlus = epPlus;
             this.ActiveStatus = ActiveStatus;
@@ -84,24 +85,35 @@ namespace HistoricJamaica
             Owner = epPlus.GetCellValue(rowIndex, (int)NemrcColumns.Owner).ToString();
             DateHomestead = epPlus.GetCellValue(rowIndex, (int)NemrcColumns.DateHomestead).ToString();
             Span = epPlus.GetCellValue(rowIndex, (int)NemrcColumns.Span).ToString();
-            VacantLand = epPlus.GetCellValue(rowIndex, (int)NemrcColumns.VacantLand).ToChar();
+            VacantLand = (includeVacant) ? epPlus.GetCellValue(rowIndex, (int)NemrcColumns.VacantLand).ToChar() : '0';
             if (ZipCode.Length == 4)
             {
                 ZipCode = ZipCode.Insert(0, "0");
             }
+            CurrentAddress = Address1.Trim() + ", " +
+                             City.Trim() + ", " +
+                             State.Trim();
         }
         //****************************************************************************************************************************
-        public void UpdateExistingGrandListRecord(DataTable grandListHistoryTbl, DataRow grandListRow, int currentYear)
+        public void SetTo2018(DataRow grandListRow, char currentStatus)
         {
+            SetNewValueIfDifferent(grandListRow, U.Name1_col, Name1);
+            SetNewValueIfDifferent(grandListRow, U.Name2_col, Name2);
+            SetNewValueIfDifferent(grandListRow, U.ActiveStatus_col, currentStatus);
+            grandListRow["Address"] = CurrentAddress;
+        }
+        //****************************************************************************************************************************
+        public void UpdateExistingGrandListRecord(DataTable grandListHistoryTbl, DataRow grandListRow, 
+                                                  int currentYear, ref int previousGrandListId)
+        {
+            if (grandListRow["GrandListId"].ToString() == "324-101-11492")
+            { }
             //string modifiedStreetName = GetModifiedStreetName(StreetName, StreetNum);
             SetNewValueIfDifferent(grandListRow, U.Span_col, Span);
             SetNewValueIfDifferent(grandListRow, U.ActiveStatus_col, ActiveStatus);
             SetNewValueIfDifferent(grandListRow, U.VacantLand_col, VacantLand);
             SetNewValueIfDifferent(grandListRow, U.StreetName_col, StreetName);
-            if (NamesDifferent(grandListRow))
-            {
-                AddNameToHistory(grandListHistoryTbl, grandListRow[U.GrandListID_col].ToInt(), grandListRow[U.Name1_col].ToString(), grandListRow[U.Name2_col].ToString(), currentYear);
-            }
+            CheckForNewOwner(grandListRow, grandListHistoryTbl, currentYear, ref previousGrandListId);
             SetNewValueIfDifferent(grandListRow, U.Name1_col, Name1);
             SetNewValueIfDifferent(grandListRow, U.Name2_col, Name2);
             if (grandListRow[U.WhereOwnerLiveID_col].ToChar() != Owner[0])
@@ -116,34 +128,70 @@ namespace HistoricJamaica
             {
                 grandListRow[U.StreetNum_col] = StreetNum;
             }
-            int oldId = grandListRow[U.BuildingRoadValueID_col].ToInt();
-            int newId = GetModernRoadValue(grandListRow[U.StreetName_col].ToString(), StreetNum);
-            if (newId != oldId)
-            {
-                if (Span == "324-101-10692")
+            CheckId(grandListRow);
+        }
+        //****************************************************************************************************************************
+        private void CheckForNewOwner(DataRow grandListRow, DataTable grandListHistoryTbl, 
+                                      int currentYear, ref int previousGrandListId)
+        {
+            //if (NewAddressOrInJamaica(grandListRow["Address"].ToString()))
+            //{
+                if (NamesDifferent(grandListRow, ref previousGrandListId))
                 {
-                    newId = oldId;
+                    AddNameToHistory(grandListHistoryTbl, grandListRow[U.GrandListID_col].ToInt(), 
+                                     grandListRow[U.Name1_col].ToString(), grandListRow[U.Name2_col].ToString(), currentYear);
                 }
-                else if (oldId == 189) // Hemlock City Lane
+                grandListRow["Address"] = CurrentAddress;
+            //}
+        }
+        //****************************************************************************************************************************
+        private bool NewAddressOrInJamaica(string oldAddress)
+        {
+            if (oldAddress.ToLower() == CurrentAddress.ToLower())
+            {
+                if (CurrentAddress.ToLower().Contains("jamaica"))
                 {
-                    newId = oldId;
+                    return true;
                 }
                 else
                 {
-                    if (newId == 0)
-                    {
-                    }
-                    else if (StreetNum == 0)
-                    {
-                    }
-                    else if (oldId == 0)
-                    {
-                    }
-                    else
-                    {
-                    }
-                    grandListRow[U.BuildingRoadValueID_col] = newId;
+                    return false;
                 }
+            }
+            return true;
+        }
+        //****************************************************************************************************************************
+        private void CheckId(DataRow grandListRow)
+        {
+            int oldId = grandListRow[U.BuildingRoadValueID_col].ToInt();
+            int newId = GetModernRoadValue(grandListRow[U.StreetName_col].ToString(), StreetNum);
+            if (newId == oldId)
+            {
+                return;
+            }
+            if (Span == "324-101-10692")  // Kaneshiro
+            {
+                newId = oldId;
+            }
+            else if (oldId == 189) // Hemlock City Lane
+            {
+                newId = oldId;
+            }
+            else
+            {
+                if (newId == 0)
+                {
+                }
+                else if (StreetNum == 0)
+                {
+                }
+                else if (oldId == 0)
+                {
+                }
+                else
+                {
+                }
+                grandListRow[U.BuildingRoadValueID_col] = newId;
             }
         }
         //****************************************************************************************************************************
@@ -158,7 +206,7 @@ namespace HistoricJamaica
             grandListHistoryTbl.Rows.Add(grandListHistoryRow);
         }
         //****************************************************************************************************************************
-        private string CheckLastName(string name1)
+        public string CheckLastName(string name1)
         {
             if (name1.ToLower().Contains("wood"))
             {
@@ -328,7 +376,7 @@ namespace HistoricJamaica
             return name1;
         }
         //****************************************************************************************************************************
-        public bool NamesDifferent(DataRow grandListRow)
+        public bool NamesDifferent(DataRow grandListRow, ref int previousGrandListId)
         {
             if (Name1.Contains("`"))
             {
@@ -354,13 +402,51 @@ namespace HistoricJamaica
             }
             if (NameIsReallyDifferent(grandListRow[U.Name1_col].ToString().ToUpper(), Name1.ToUpper(), false))
             {
-                return true;
+                previousGrandListId = grandListRow["grandListID"].ToInt();
+                return GetMessage(grandListRow, oldName1, oldName2, ref previousGrandListId);
+
+                //return MessageBox.Show(GetMessage(grandListRow, oldName1, oldName2, ref previousGrandListId), "", 
+                //                       MessageBoxButtons.YesNo) == DialogResult.Yes;
             }
             //if (NameIsReallyDifferent(grandListRow[U.Name2_col].ToString().ToUpper(), Name2.ToUpper(), true))
             //{
             //    return true;
             //}
             return false;
+        }
+        //****************************************************************************************************************************
+        private bool GetMessage(DataRow grandListRow, string oldName1, string oldName2, ref int previousGrandListId)
+        {
+            string msg1 = "ID: " + grandListRow["grandListID"].ToString() + " (" + previousGrandListId + ")\r";
+            string msg2 = grandListRow["Address"].ToString();
+            string msg3 = CurrentAddress;
+            if (oldName1.Length > oldName2.Length)
+            {
+                oldName2 = PadName(oldName2, oldName1.Length);
+            }
+            else
+            {
+                oldName1 = PadName(oldName1, oldName2.Length);
+            }
+            string msg4 = "\r" + oldName1 + " - " + Name1;
+            string msg5 = "";
+            if (!String.IsNullOrEmpty(oldName2) || !String.IsNullOrEmpty(Name2))
+            {
+                msg5 = "\r" + oldName2 + " - " + Name2;
+            }
+            FMsgBox msgBox = new FMsgBox(msg1, msg2, msg3, msg4, msg5);
+            msgBox.ShowDialog();
+            return msgBox.yesno == FMsgBox.Yesno.yes;
+        }
+        //****************************************************************************************************************************
+        private string PadName(string oldName, int length)
+        {
+            if (oldName.Length == length)
+            {
+                return oldName;
+            }
+            int paddingLength = length - oldName.Length;
+            return oldName + new String(' ', paddingLength);
         }
         //****************************************************************************************************************************
         private bool NameIsReallyDifferent(string oldName, string newName, bool isName2)

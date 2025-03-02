@@ -197,6 +197,12 @@
     <Compile Include="Forms\FCemeteryRecord\FCemeteryRecord.Designer.cs">
       <DependentUpon>FCemeteryRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FMsgBox.designer.cs">
+      <DependentUpon>FMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FSearchForPerson\FSearchForPerson.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -346,6 +352,9 @@
     <EmbeddedResource Include="Forms\FCemeteryRecord\FCemeteryRecord.resx">
       <DependentUpon>FCemeteryRecord.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FMsgBox.resx">
+      <DependentUpon>FMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FSearchForPerson\FSearchForPerson.resx">
       <DependentUpon>FSearchForPerson.cs</DependentUpon>

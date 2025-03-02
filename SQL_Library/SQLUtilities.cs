@@ -133,6 +133,7 @@ namespace SQL_Library
         public const int iMaxBookPageLength = 10;
         public const int iMaxPlaceLength = 50;
         public const int iMaxValueLength = 50;
+        public const int iMaxAddressLength = 100;
         public const int iMaxFullNameLength = 50;
         public const int iMaxDescriptionLength = 1000;
         public const int iMaxArticleLength = 5000;
@@ -343,6 +344,7 @@ namespace SQL_Library
         public const string WhereOwnerLiveID_col = "WhereOwnerLiveID";
         public const string ActiveStatus_col = "ActiveStatus";
         public const string VacantLand_col = "VacantLand";
+        public const string Address_col = "Address";
         // Columns In Picture Table
         public const string PhotoID_col = "PhotoID";
         public const string PhotoSequence_col = "PhotoSequence";
