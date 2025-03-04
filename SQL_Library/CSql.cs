@@ -44,10 +44,6 @@ namespace SQL_Library
                 m_bFoundFatalError = true;
             }
         }
-        public SqlTransaction GetTxn()
-        {
-            return sqlConnection.BeginTransaction();
-        }
         //****************************************************************************************************************************
         public int Update(SqlDataAdapter da,
                           DataTable      tbl)

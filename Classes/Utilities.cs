@@ -253,15 +253,18 @@ namespace Utilities
         //****************************************************************************************************************************
         public static string SelectFile(string sFilter,
                                         string sFolder,
-                                        string title="")
+                                        string title="",
+                                        string filename="")
         {
-            OpenFileDialog myDialog = new OpenFileDialog();
+            SaveFileDialog myDialog = new SaveFileDialog();
             if (!String.IsNullOrEmpty(title))
             {
                 myDialog.Title = title;
             }
+            myDialog.OverwritePrompt = false;
             myDialog.Filter = sFilter;
             myDialog.InitialDirectory = sFolder;
+            myDialog.FileName = filename;
             if (myDialog.ShowDialog() == DialogResult.OK)
                 return myDialog.FileName;
             else

@@ -61,6 +61,8 @@ namespace HistoricJamaica
         private MenuItem menuSchoolRecords;
         private MenuItem ImportCivalWarRecords_menuItem;
         private MenuItem ImportGrandList_menuItem;
+        private MenuItem backupDatabase;
+        private MenuItem restoreDatabase;
         private IContainer components;
         //****************************************************************************************************************************
         public FHistoricJamaica()
@@ -156,6 +158,8 @@ namespace HistoricJamaica
             this.TestHistoricJamaica = new System.Windows.Forms.MenuItem();
             this.MenuPhotoSlideShow = new System.Windows.Forms.MenuItem();
             this.menuSchoolRecords = new System.Windows.Forms.MenuItem();
+            this.backupDatabase = new System.Windows.Forms.MenuItem();
+            this.restoreDatabase = new System.Windows.Forms.MenuItem();
             People_MenuItem = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
@@ -201,7 +205,9 @@ namespace HistoricJamaica
             this.ExportSQL_menuItem,
             this.ExportBuildings_menuItem,
             this.UpdateMultipleMariages_menuItem,
-            this.Test_menuItem});
+            this.Test_menuItem,
+            this.backupDatabase,
+            this.restoreDatabase});
             this.File_menuItem.Text = "File";
             // 
             // Exit
@@ -285,7 +291,7 @@ namespace HistoricJamaica
             // Test_menuItem
             // 
             this.Test_menuItem.Index = 13;
-            this.Test_menuItem.Text = "Test";
+            this.Test_menuItem.Text = "Maintenance";
             this.Test_menuItem.Click += new System.EventHandler(this.TestClick);
             // 
             // Family_menuItem
@@ -436,6 +442,18 @@ namespace HistoricJamaica
             this.menuSchoolRecords.Text = "School Records";
             this.menuSchoolRecords.Click += new System.EventHandler(this.SchoolRecords_Click);
             // 
+            // backupDatabase
+            // 
+            this.backupDatabase.Index = 14;
+            this.backupDatabase.Text = "Backup Database";
+            this.backupDatabase.Click += new System.EventHandler(this.BackupDatabase_Click);
+            // 
+            // restoreDatabase
+            // 
+            this.restoreDatabase.Index = 15;
+            this.restoreDatabase.Text = "Restore Database";
+            this.restoreDatabase.Click += new System.EventHandler(this.RestoreDatabase_Click);
+            // 
             // FHistoricJamaica
             // 
             this.AllowDrop = true;
@@ -531,6 +549,33 @@ namespace HistoricJamaica
         {
             CGridSchoolRecords gridSchoolRecords = new CGridSchoolRecords(m_SQL, false);
             gridSchoolRecords.ShowDialog();
+        }
+        //****************************************************************************************************************************
+        private void BackupDatabase_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                SQL.BackupDatabase();
+                MessageBox.Show("Backup Successful");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        //****************************************************************************************************************************
+        private void RestoreDatabase_Click(object sender, System.EventArgs e)
+        {
+            string sFilter = "Image Files (bak)|*.bak";
+            string localDatabasePath = UU.SelectFile(sFilter, @"c:\JHF.Backups", "RestoreDatabase", "HistoricJamaica.bak");
+            if (!String.IsNullOrEmpty(localDatabasePath))
+            {
+                if (!File.Exists(localDatabasePath))
+                {
+                    throw new Exception("Unable to find backup file: " + localDatabasePath);
+                }
+                SQL.RestoreDatabase(localDatabasePath);
+            }
         }
         //****************************************************************************************************************************
         private void PhotoSlideShow_Click(object sender, System.EventArgs e)
@@ -2286,7 +2331,7 @@ namespace HistoricJamaica
         //****************************************************************************************************************************
         private void TestClick(object sender, System.EventArgs e)
         {
-            CheckMarriageBirthDateWithBirthDate();
+            //CheckMarriageBirthDateWithBirthDate();
 
             //SQL.CheckSchoolRecordsBirthDate();
             //SQL.CheckCensusBirthDate();

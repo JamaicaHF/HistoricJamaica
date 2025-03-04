@@ -16,6 +16,8 @@ namespace SQL_Library
         public static string m_sDataDirectory;
         private static bool m_bFullDatabase = false;
         private static string m_sDatabaseName;
+        private static string m_sdatabaseFolder = @"c:\JHF\Backups\";
+        private static string m_sServer;
 
         //****************************************************************************************************************************
         public static void OpenConnection(string sDatabaseName,
@@ -29,6 +31,7 @@ namespace SQL_Library
                 sqlConnection = new SqlConnection(connectionStr);
 
                 m_sDatabaseName = sDatabaseName;
+                m_sServer = sServer;
                 sqlConnection.Open();
                 m_sDataDirectory = sDataDirectory;
                 m_bFullDatabase = bFullDatabase;
@@ -804,6 +807,98 @@ namespace SQL_Library
                 orderByString += orderByColumn;
             }
             return orderByString;
+        }
+        //****************************************************************************************************************************
+        public static void RestoreDatabase(string localDatabasePath)
+        {
+            SetDatabaseToSingleUser();
+            string databaseName = "HistoricJamaica";
+            //var sql = @"USE [master] RESTORE DATABASE " + databaseName + " FROM DISK = '" + localDatabasePath + "' WITH REPLACE";
+            var sql = @"USE [master] RESTORE DATABASE @databaseName FROM DISK = @localDatabasePath  WITH REPLACE";
+            using (var command = new SqlCommand(sql, sqlConnection))
+            {
+                command.CommandTimeout = 7200;
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@databaseName", databaseName);
+                command.Parameters.AddWithValue("@localDatabasePath", localDatabasePath);
+                command.ExecuteNonQuery();
+            }
+            SetDatabaseToMultiUser();
+            sqlConnection.Close();
+            OpenConnection(m_sDatabaseName, m_sServer, m_sDataDirectory, m_bFullDatabase);
+        }
+        //****************************************************************************************************************************
+        public static void SetDatabaseToSingleUser()
+        {
+            string databaseName = "HistoricJamaica";
+            var sql = @"declare @database varchar(max) = '[' + @databaseName + ']'
+                                EXEC('ALTER DATABASE ' + @database + ' SET SINGLE_USER WITH ROLLBACK IMMEDIATE')";
+            using (var command = new SqlCommand(sql, sqlConnection))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@databaseName", databaseName);
+
+                command.ExecuteNonQuery();
+            }
+        }
+        //****************************************************************************************************************************
+        public static void SetDatabaseToMultiUser()
+        {
+            // set database to multi user
+            string databaseName = "HistoricJamaica";
+            var sql = @"
+                                declare @database varchar(max) = '[' + @databaseName + ']'
+                                EXEC('ALTER DATABASE ' + @database + ' SET MULTI_USER')";
+            using (var command = new SqlCommand(sql, sqlConnection))
+            {
+                command.CommandType = CommandType.Text;
+                command.Parameters.AddWithValue("@databaseName", databaseName);
+
+                command.ExecuteNonQuery();
+            }
+        }
+        //****************************************************************************************************************************
+        public static void BackupDatabase()
+        {
+            string databaseName = "HistoricJamaica";
+            string localDatabasePath = m_sdatabaseFolder + databaseName + ".bak";
+            if (File.Exists(localDatabasePath))
+            {
+                RenameOldDatabase(localDatabasePath, databaseName);
+            }
+            string sql = @"BACKUP DATABASE @databaseName TO DISK = @localDatabasePath;";
+            using (var command = new SqlCommand(sql, sqlConnection))
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandTimeout = 7200;
+                command.Parameters.AddWithValue("@databaseName", databaseName);
+                command.Parameters.AddWithValue("@localDatabasePath", localDatabasePath);
+                command.ExecuteNonQuery();
+            }
+        }
+        //****************************************************************************************************************************
+        private static void RenameOldDatabase(string localDatabasePath, string databaseName)
+        {
+            int highestNum = 0;
+            string[] backups = Directory.GetFiles(m_sdatabaseFolder);
+            foreach (string backup in backups)
+            {
+                string name = Path.GetFileNameWithoutExtension(backup);
+                int indexOf = name.IndexOf(databaseName);
+                if (indexOf == 0)
+                {
+                    string suffix = name.Substring(databaseName.Length);
+                    int num = suffix.ToInt();
+                    if (num > highestNum)
+                    {
+                        highestNum = num;
+                    }
+                }
+            }
+            highestNum++;
+            int indexOfBak = localDatabasePath.IndexOf(".bak");
+            string newFile = localDatabasePath.Insert(indexOfBak, highestNum.ToString());
+            File.Move(localDatabasePath, newFile);
         }
         //****************************************************************************************************************************
     }
