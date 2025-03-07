@@ -421,7 +421,7 @@ namespace SQL_Library
         public const string s1869and1856MapString = "Maps 1856,1869";
         public const string s1869and1856and1884MapString = "Maps 1856,1869,1884";
         public const string sCurrentOccupantString = "(Current Owner)";
-        public const string sOwnerString = "(Owner)";
+        public const string sOwnerString = "(Owner Until)";
         //****************************************************************************************************************************
         public static void ProportionalCoordinates(int iMaxHeight,
                                             int iMaxWidth,

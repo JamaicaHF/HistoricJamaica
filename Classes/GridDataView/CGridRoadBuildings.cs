@@ -704,8 +704,9 @@ namespace HistoricJamaica
             Values_listBox.Items.Add("Owners");
             sCurrentOwners = U.BuildingString(sCurrentOwners, U.iCurrentOwners, 0, 0, 0);
             Values_listBox.Items.Add("    " + sCurrentOwners);
-            foreach (DataRow grandListHistoryRow in grandListHistoryTbl.Rows)
+            for (int index = grandListHistoryTbl.Rows.Count - 1; index >= 0; index--)
             {
+                DataRow grandListHistoryRow = grandListHistoryTbl.Rows[index];
                 string owner = U.CombineName1AndName2(grandListHistoryRow[U.Name1_col].ToString(), grandListHistoryRow[U.Name2_col].ToString());
                 owner = U.BuildingString(owner, U.iCurrentOwners, 0, 0, grandListHistoryRow[U.Year_col].ToInt());
                 Values_listBox.Items.Add("    " + owner);
