@@ -146,7 +146,7 @@ namespace HistoricJamaica
                     bool studentRowFound = false;
                     if (eVitalRecordType == EVitalRecordType.eSchool) // cemetery
                     {
-                        int SchoolRecordId = row[U.VitalRecordID_col].ToInt() - 8900000;
+                        int SchoolRecordId = row[U.VitalRecordID_col].ToInt() - U.SchoolRecordOffset_col;
                         DataTable SchoolRecord_tbl = SQL.GetSchoolRecord(SchoolRecordId);
                         if (SchoolRecord_tbl.Rows.Count != 0)
                         {
@@ -228,7 +228,7 @@ namespace HistoricJamaica
                     if (studentRowFound && !stripAdded)
                     {
                         stripAdded = true;
-                        toolStripItem2.Text = "Update School Record Name";
+                        toolStripItem2.Text = "Update School Record Name to Person Record Name";
                         toolStripItem2.Click += new EventHandler(UpdateStudentRecord_Click);
                         strip.Items.Add(toolStripItem2);
                     }
@@ -340,13 +340,28 @@ namespace HistoricJamaica
             int iRowIndex = mouseLocation.RowIndex;
             DataGridViewRow dataGridViewRow = General_DataGridView.Rows[iRowIndex];
             int iSchoolRecordID = dataGridViewRow.Cells[m_NumColumns - 1].Value.ToInt();
-            if (iSchoolRecordID > 8999999 || iSchoolRecordID < 8900000)
+            if (iSchoolRecordID > 8999999 || iSchoolRecordID < U.SchoolRecordOffset_col)
             {
                 return;
             }
-            iSchoolRecordID -= 8900000;
-            string personName = dataGridViewRow.Cells[m_NumColumns - 1].Value.ToString();
-            if (!SQL.UpdateSchoolrecordsFromPersonRecord(iSchoolRecordID))
+            iSchoolRecordID -= U.SchoolRecordOffset_col;
+            DataRow personRow;
+            if (SQL.UpdateSchoolrecordsFromPersonRecord(iSchoolRecordID, out personRow))
+            {
+                foreach (DataRow row in m_tbl.Rows)
+                {
+                    if (row[U.VitalRecordID_col].ToInt() > U.SchoolRecordOffset_col)
+                    {
+                        row[U.FirstName_col] = personRow[U.FirstName_col];
+                        row[U.MiddleName_col] = personRow[U.MiddleName_col];
+                        row[U.LastName_col] = personRow[U.LastName_col];
+                        row[U.Suffix_col] = personRow[U.Suffix_col];
+                        row[U.Prefix_col] = personRow[U.Prefix_col];
+                    }
+                }
+                ShowAllValues("");
+            }
+            else
             {
                 MessageBox.Show("Unable to modify Student Records");
             }

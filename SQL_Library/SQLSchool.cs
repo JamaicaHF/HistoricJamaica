@@ -745,8 +745,9 @@ namespace SQL_Library
             }
         }
         //****************************************************************************************************************************
-        public static bool UpdateSchoolrecordsFromPersonRecord(int schoolRecordId)
+        public static bool UpdateSchoolrecordsFromPersonRecord(int schoolRecordId, out DataRow personRow)
         {
+            personRow = null;
             try
             {
                 DataTable schoolRecordTbl = GetSchoolRecord(schoolRecordId);
@@ -760,7 +761,7 @@ namespace SQL_Library
                 {
                     return false;
                 }
-                DataRow personRow = GetPerson(personId);
+                personRow = GetPerson(personId);
                 if (personRow == null)
                 {
                     return false;

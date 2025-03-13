@@ -680,39 +680,49 @@ namespace HistoricJamaica
             }
             if (SaveBeforeLeaving())
             {
-                DataTable tbl = SQL.DefineVitalRecord_Table();
-                tbl.PrimaryKey = new DataColumn[] { tbl.Columns[U.VitalRecordID_col] };
-                SQL.GetAllRecordsForPerson(tbl, m_iPersonID, SetPersonSex());
-                int iRecordID = GetVitalRecordFromGrid(tbl, "");
-                if (iRecordID == 0)
+                int iRecordID = DisplayVitalRecords();
+                ReturnToPreviousScreen(iRecordID);
+            }
+        }
+        //****************************************************************************************************************************
+        private int DisplayVitalRecords()
+        {
+            DataTable tbl = SQL.DefineVitalRecord_Table();
+            tbl.PrimaryKey = new DataColumn[] { tbl.Columns[U.VitalRecordID_col] };
+            SQL.GetAllRecordsForPerson(tbl, m_iPersonID, SetPersonSex());
+            return GetVitalRecordFromGrid(tbl, "");
+        }
+        //****************************************************************************************************************************
+        private void ReturnToPreviousScreen(int iRecordID)
+        {
+            if (iRecordID == 0)
+            {
+                return;
+            }
+            if (iRecordID > 9900000)
+            {
+                int cemeteryRecordId = iRecordID - 9900000;
+                FCemeteryRecord CemeteryRecord = new FCemeteryRecord(m_SQL, cemeteryRecordId);
+                CemeteryRecord.ShowDialog();
+            }
+            else if (iRecordID > U.SchoolRecordOffset_col)
+            {
+                int SchoolRecordId = iRecordID - U.SchoolRecordOffset_col;
+                DataTable schoolRecord_tbl = SQL.GetSchoolRecord(SchoolRecordId);
+                if (schoolRecord_tbl.Rows.Count != 0)
                 {
-                    return;
+                    DataRow schoolRecord_row = schoolRecord_tbl.Rows[0];
+                    int schoolId = schoolRecord_row[U.SchoolID_col].ToInt();
+                    int schoolYear = schoolRecord_row[U.Year_col].ToInt();
+                    int grade = schoolRecord_row[U.Grade_col].ToInt();
+                    CGridStudentRecords gridStudentRecords = new CGridStudentRecords(ref m_SQL, schoolId, schoolYear, grade, false);
+                    gridStudentRecords.ShowDialog();
                 }
-                if (iRecordID > 9900000)
-                {
-                    int cemeteryRecordId = iRecordID - 9900000;
-                    FCemeteryRecord CemeteryRecord = new FCemeteryRecord(m_SQL, cemeteryRecordId);
-                    CemeteryRecord.ShowDialog();
-                }
-                else if (iRecordID > 8900000)
-                {
-                    int SchoolRecordId = iRecordID - 8900000;
-                    DataTable schoolRecord_tbl = SQL.GetSchoolRecord(SchoolRecordId);
-                    if (schoolRecord_tbl.Rows.Count != 0)
-                    {
-                        DataRow schoolRecord_row = schoolRecord_tbl.Rows[0];
-                        int schoolId = schoolRecord_row[U.SchoolID_col].ToInt();
-                        int schoolYear = schoolRecord_row[U.Year_col].ToInt();
-                        int grade = schoolRecord_row[U.Grade_col].ToInt();
-                        CGridStudentRecords gridStudentRecords = new CGridStudentRecords(ref m_SQL, schoolId, schoolYear, grade, false);
-                        gridStudentRecords.ShowDialog();
-                    }
-                }
-                else
-                {
-                    FVitalRecord VitalRecord = new FVitalRecord(m_SQL, iRecordID);
-                    VitalRecord.ShowDialog();
-                }
+            }
+            else
+            {
+                FVitalRecord VitalRecord = new FVitalRecord(m_SQL, iRecordID);
+                VitalRecord.ShowDialog();
             }
         }
         //****************************************************************************************************************************

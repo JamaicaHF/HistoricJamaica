@@ -195,6 +195,7 @@ namespace SQL_Library
         public const string NameSpelling1_Col = "NameSpelling1";
         public const string NameSpelling2_Col = "NameSpelling2";
         public const string VitalRecordID_col = "VitalRecordID";
+        public const int SchoolRecordOffset_col = 8900000;
         public const string VitalRecordType_col = "VitalRecordType";
         public const string FatherID_col = "FatherID";
         public const string SpouseFirstName_col = "SpouseFirstName";

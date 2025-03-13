@@ -351,7 +351,7 @@ namespace SQL_Library
         public static void ConvertSchoolRecordsToVitalRecords(DataRow schoolRecordRow, DataTable vitalRecordTbl, string sex)
         {
             DataRow VitalRecordRow = vitalRecordTbl.NewRow();
-            VitalRecordRow[U.VitalRecordID_col] = schoolRecordRow[U.SchoolRecordID_col].ToInt() + 8900000;
+            VitalRecordRow[U.VitalRecordID_col] = schoolRecordRow[U.SchoolRecordID_col].ToInt() + U.SchoolRecordOffset_col;
             VitalRecordRow[U.VitalRecordType_col] = EVitalRecordType.eSchool;
             PersonName personName = new PersonName(schoolRecordRow[U.Person_col].ToString());
             VitalRecordRow[U.FirstName_col] = personName.firstName;
