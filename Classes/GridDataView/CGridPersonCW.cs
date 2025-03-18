@@ -195,8 +195,10 @@ namespace HistoricJamaica
             string alreadyIntegrated = dataGridViewRow.Cells[1].Value.ToString().Trim();
             if (!String.IsNullOrEmpty(alreadyIntegrated))
             {
-                MessageBox.Show("This Person Has Already Been Integrated");
-                return;
+                if (MessageBox.Show("This Person Has Already Been Integrated.  Do you wish to reintegrate?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
             }
             int PersonCWID = dataGridViewRow.Cells[7].Value.ToInt();
             DataTable personCW_tbl = SQL.GetPersonCWRecord(PersonCWID);

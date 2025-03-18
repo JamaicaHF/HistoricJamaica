@@ -951,8 +951,8 @@ namespace SQL_Library
                 int iPersonID = SavePersonRecordsWithFatherMotherIDs(txn, Person_tbl);
                 if (iPersonID != 0)
                 {
-                    bSuccess = true;
                     SchoolRecord_row[U.PersonID_col] = iPersonID;
+                    bSuccess = true;
                 }
                 if (bSuccess && (!getFromGrid || UserDoesNotWantToAbort()))
                 {
@@ -961,7 +961,6 @@ namespace SQL_Library
                 }
                 else
                 {
-                    SchoolRecord_row[U.PersonID_col] = 0;
                     txn.Rollback();
                     return false;
                 }

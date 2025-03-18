@@ -855,15 +855,7 @@ namespace HistoricJamaica
             if (iVitalRecordID != 0)
             {
                 m_iVitalRecordID = iVitalRecordID;
-                if (iVitalRecordID > 9900000)
-                {
-                    int cemeteryRecordId = iVitalRecordID - 9900000;
-                    DisplayCemeteryRecord(cemeteryRecordId);
-                }
-                else
-                {
-                    DisplayVitalRecord(m_iVitalRecordID);
-                }
+                DisplayCurrentRecord(m_iVitalRecordID);
             }
             else
             if (m_iVitalRecordID != 0)
@@ -871,6 +863,20 @@ namespace HistoricJamaica
                 LookToSeeIfTheRecordWasDeleted();
             }
             return iVitalRecordID;
+        }
+        //****************************************************************************************************************************
+        private void DisplayCurrentRecord(int iVitalRecordID)
+        {
+            if (iVitalRecordID > 9900000)
+            {
+                int cemeteryRecordId = iVitalRecordID - 9900000;
+                DisplayCemeteryRecord(cemeteryRecordId);
+            }
+            else
+            {
+                DisplayVitalRecord(iVitalRecordID);
+            }
+
         }
         //****************************************************************************************************************************
         private string OrderByStatement()
@@ -1318,18 +1324,32 @@ namespace HistoricJamaica
             }
         }
         //****************************************************************************************************************************
-        private bool PersonIntegrated(bool   NameIntegratedChecked,
+        private bool PersonIntegrated(bool NameIntegratedChecked,
                                       string sLastName,
-                                      string sMaidenName)
+                                      string sMaidenName = "",
+                                      string motherFirstName = "")
         {
-            return (NameIntegratedChecked || (sLastName.Length == 0 && sMaidenName.Length == 0));
+            if (NameIntegratedChecked)
+            {
+                return true;
+            }
+            if (sMaidenName.Length == 0)
+            {
+                return true;
+            }
+            if (motherFirstName.Length == 0)
+            {
+                return true;
+            }
+            return false;
         }
         //****************************************************************************************************************************
         private bool RecordAlreadyIntegrated()
         {
-            if (PersonIntegrated(NameIntegrated_checkBox.Checked, LastName_textBox.Text.ToString(), "") &&
-                PersonIntegrated(FatherIntegrated_checkBox.Checked, FatherLastName_textBox.Text.ToString(), "") &&
-                PersonIntegrated(MotherIntegrated_checkBox.Checked, MotherLastName_textBox.Text.ToString(), FatherLastName_textBox.Text.ToString()))
+            if (PersonIntegrated(NameIntegrated_checkBox.Checked, LastName_textBox.Text.ToString()) &&
+                PersonIntegrated(FatherIntegrated_checkBox.Checked, FatherLastName_textBox.Text.ToString()) &&
+                PersonIntegrated(MotherIntegrated_checkBox.Checked, MotherLastName_textBox.Text.ToString(),
+                                                                    FatherLastName_textBox.Text.ToString(), MotherFirstName_textBox.Text.ToString()))
             {
                 if (!m_eVitalRecordType.MarriageRecord())
                 {
@@ -1337,7 +1357,7 @@ namespace HistoricJamaica
                 }
                 if (PersonIntegrated(SpouseIntegrated_checkBox.Checked, SpouseLastName_textBox.Text.ToString(), "") &&
                     PersonIntegrated(SpouseFatherIntegrated_checkBox.Checked, SpouseFatherLastName_textBox.Text.ToString(), "") &&
-                    PersonIntegrated(SpouseMotherIntegrated_checkBox.Checked, SpouseMotherLastName_textBox.Text.ToString(), SpouseFatherLastName_textBox.ToString()))
+                    PersonIntegrated(SpouseMotherIntegrated_checkBox.Checked, SpouseMotherLastName_textBox.Text.ToString(), SpouseFatherLastName_textBox.Text.ToString()))
                 {
                     return true;
                 }
@@ -1351,7 +1371,7 @@ namespace HistoricJamaica
             {
                 if (!SaveVitalRecord())
                 {
-                    MessageBox.Show("Integration Unsuccesful");
+                    MessageBox.Show("Integration Unsuccesful.  Save Before Integration");
                     return;
                 }
             }
@@ -1359,7 +1379,7 @@ namespace HistoricJamaica
                 return;
             if (RecordAlreadyIntegrated())
             {
-                MessageBox.Show("This Person Has Already Been Integrated");
+                MessageBox.Show("This Person Has Already Been Integrated.  Uncheck all Names you would like to reintegrate and click Integrate Record Again.");
                 return;
             }
             DataRow VitalRecord_row = m_VitalRecord_tbl.Rows[0];
@@ -1377,6 +1397,10 @@ namespace HistoricJamaica
                 {
                     SetIntegratedChecked(m_VitalRecord_tbl);
                 }
+            }
+            else
+            {
+                DisplayCurrentRecord(m_iVitalRecordID);
             }
         }
         //****************************************************************************************************************************

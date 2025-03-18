@@ -767,17 +767,31 @@ namespace HistoricJamaica
         //****************************************************************************************************************************
         private bool PersonIntegrated(bool   NameIntegratedChecked,
                                       string sLastName,
-                                      string sMaidenName)
+                                      string sMaidenName = "",
+                                      string motherFirstName = "")
         {
-            return (NameIntegratedChecked || (sLastName.Length == 0 && sMaidenName.Length == 0));
+            if (NameIntegratedChecked)
+            {
+                return true;
+            }
+            if (sMaidenName.Length == 0)
+            {
+                return true;
+            }
+            if (motherFirstName.Length == 0)
+            {
+                return true;
+            }
+            return false;
         }
         //****************************************************************************************************************************
         private bool RecordAlreadyIntegrated()
         {
             if (PersonIntegrated(NameIntegrated_checkBox.Checked, LastName_textBox.Text.ToString(), "") &&
-                PersonIntegrated(SpouseIntegrated_checkBox.Checked, SpouseIntegrated_checkBox.Text.ToString(), "") &&
-                PersonIntegrated(FatherIntegrated_checkBox.Checked, FatherLastName_textBox.Text.ToString(), "") &&
-                PersonIntegrated(MotherIntegrated_checkBox.Checked, MotherLastName_textBox.Text.ToString(), FatherLastName_textBox.Text.ToString()))
+                PersonIntegrated(SpouseIntegrated_checkBox.Checked, SpouseLastName_textBox.Text.ToString()) &&
+                PersonIntegrated(FatherIntegrated_checkBox.Checked, FatherLastName_textBox.Text.ToString()) &&
+                PersonIntegrated(MotherIntegrated_checkBox.Checked, MotherLastName_textBox.Text.ToString(), 
+                                                                    FatherLastName_textBox.Text.ToString(), MotherFirstName_textBox.Text.ToString()))
             {
                 return true;
             }
@@ -791,7 +805,7 @@ namespace HistoricJamaica
             {
                 if (!SaveCemeteryRecord())
                 {
-                    MessageBox.Show("Integration Unsuccesful");
+                    MessageBox.Show("Integration Unsuccesful.  Save Before Integration");
                     return;
                 }
             }
@@ -799,7 +813,7 @@ namespace HistoricJamaica
                 return;
             if (RecordAlreadyIntegrated())
             {
-                MessageBox.Show("This Person Has Already Been Integrated");
+                MessageBox.Show("This Person Has Already Been Integrated.  Uncheck all Names you would like to reintegrate and click Integrate Record Again.");
                 return;
             }
             DataRow CemeteryRecord_row = m_CemeteryRecord_tbl.Rows[0];
@@ -819,10 +833,7 @@ namespace HistoricJamaica
             }
             else
             {
-                CemeteryRecord_row[U.PersonID_col] = 0;
-                CemeteryRecord_row[U.SpouseID_col] = 0;
-                CemeteryRecord_row[U.FatherID_col] = 0;
-                CemeteryRecord_row[U.MotherID_col] = 0;
+                DisplayCemeteryRecord(m_iCemeteryRecordID);
             }
         }
         //****************************************************************************************************************************
@@ -1416,7 +1427,7 @@ namespace HistoricJamaica
             Male_radioButton.Checked = false;
             Male_radioButton.Checked = false;
             Unknown_radioButton.Checked = false;
-            if (!String.IsNullOrEmpty(FirstName_textBox.ToString()))
+            if (!String.IsNullOrEmpty(FirstName_textBox.Text.ToString()))
             {
                 string firstName = FirstName_textBox.Text.ToString();
                 eSex sex = SQL.GetSex(firstName);
@@ -1452,7 +1463,7 @@ namespace HistoricJamaica
             }
             else if (SearchBy != eSearchOption.SO_ReturnToLast)
             {
-                m_bDidSearch = true;
+                //m_bDidSearch = true;
             }
             if (IntegrationChanged())
             {

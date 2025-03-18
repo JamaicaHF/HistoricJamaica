@@ -152,8 +152,6 @@ namespace HistoricJamaica
                                                                               fatherName.lastName, fatherName, motherName, fatherId, motherId);
                 fatherId = SimilarPersonExists(fatherIntegrationInfo);
                 motherId = fatherIntegrationInfo.iSpouseId;
-                cemeteryRecord_row[U.FatherID_col] = fatherId;
-                cemeteryRecord_row[U.MotherID_col] = motherId;
             }
             if (!ValidData(fatherId, motherId, "Father", "Mother"))
             {
@@ -170,6 +168,8 @@ namespace HistoricJamaica
             DataRow Person_row = Person_tbl.Rows[0];
             if (UseSelectedFatherMother(Person_row, personName, fatherId, motherId))
             {
+                cemeteryRecord_row[U.FatherID_col] = fatherId;
+                cemeteryRecord_row[U.MotherID_col] = motherId;
                 fatherId = Person_row[U.FatherID_col].ToInt();
                 motherId = Person_row[U.MotherID_col].ToInt();
                 return GetMarriageRecord(fatherId, motherId);

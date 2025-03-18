@@ -204,16 +204,22 @@ namespace HistoricJamaica
             }
         }
         //****************************************************************************************************************************
+        private bool GetMessage()
+        {
+            string msg1 = "ID1: " + "\r";
+            string msg2 = "ID2: " + "\r";
+            string msg3 = "ID3: " + "\r";
+            string msg4 = "ID4: " + "\r";
+            string msg5 = "ID5: " + "\r";
+            FMsgBox msgBox = new FMsgBox(msg1, msg2, msg3, msg4, msg5);
+            msgBox.ShowDialog();
+            return msgBox.yesno == FMsgBox.Yesno.yes;
+        }
+        //****************************************************************************************************************************
         private void IntegrateStudent_Click(object sender, EventArgs e)
         {
             int iRow = this.General_DataGridView.SelectedCells[0].RowIndex;
             DataGridViewRow dataGridViewRow = General_DataGridView.Rows[iRow];
-            string alreadyIntegrated = dataGridViewRow.Cells[1].Value.ToString().Trim();
-            if (!String.IsNullOrEmpty(alreadyIntegrated))
-            {
-                MessageBox.Show("This Person Has Already Been Integrated");
-                return;
-            }
             int schoolRecordID = dataGridViewRow.Cells[4].Value.ToInt();
             DataTable SchoolRecord_tbl = SQL.GetSchoolRecord(schoolRecordID);
             if (SchoolRecord_tbl.Rows.Count == 0)
@@ -221,23 +227,59 @@ namespace HistoricJamaica
                 MessageBox.Show("Unable to Get School Record: " + schoolRecordID);
                 return;
             }
+            string alreadyIntegrated = dataGridViewRow.Cells[1].Value.ToString().Trim();
+            if (!String.IsNullOrEmpty(alreadyIntegrated))
+            {
+                string msg = "This Person Has Already Been Integrated.  Do you wish to reintegrate?\rClick Cancel to remove Integration";
+                DialogResult result = MessageBox.Show(msg, "", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Yes: break;
+                    case DialogResult.No: return;
+                    case DialogResult.Cancel:
+                        RemoveIntegration(dataGridViewRow, SchoolRecord_tbl);
+                        return;
+                    default: return;
+                }
+            }
+            IntegrateStudent(dataGridViewRow, SchoolRecord_tbl);
+        }
+        //****************************************************************************************************************************
+        private void RemoveIntegration(DataGridViewRow dataGridViewRow, DataTable SchoolRecord_tbl)
+        {
+            SchoolRecord_tbl.Rows[0]["PersonID"] = 0;
+            if (!SQL.SaveIntegratedSchoolRecords(SchoolRecord_tbl))
+            {
+                MessageBox.Show("Integrate Unsuccesful");
+            }
+            dataGridViewRow.Cells[1].Value = " ";
+        }
+        //****************************************************************************************************************************
+        private void IntegrateStudent(DataGridViewRow dataGridViewRow, DataTable SchoolRecord_tbl)
+        {
             DataRow SchoolRecord_row = SchoolRecord_tbl.Rows[0];
             DataTable AlternativeSpellingsFirstNameTbl = SQL.GetAllAlternativeSpellings(U.AlternativeSpellingsFirstName_Table);
             DataTable AlternativeSpellingsLastNameTbl = SQL.GetAllAlternativeSpellings(U.AlternativeSpellingsLastName_Table);
 
             CIntegrateSchoolRecord integrateSchoolRecord = new CIntegrateSchoolRecord(m_SQL, true);
+            int originalPersonId = SchoolRecord_row["PersonID"].ToInt();
+            bool saveRecord = false;
             if (integrateSchoolRecord.IntegrateRecord(SchoolRecord_row,
                                                   AlternativeSpellingsFirstNameTbl,
                                                   AlternativeSpellingsLastNameTbl))
             {
-                if (SQL.SaveIntegratedSchoolRecords(SchoolRecord_tbl))
-                {
-                    dataGridViewRow.Cells[1].Value = "x";
-                }
-                else
-                {
-                    MessageBox.Show("Integrate Unsuccesful");
-                }
+                saveRecord = true;
+                dataGridViewRow.Cells[1].Value = "x";
+            }
+            else
+            if (originalPersonId != 0)
+            {
+                //saveRecord = true;
+                dataGridViewRow.Cells[1].Value = "x";
+            }
+            if (saveRecord && !SQL.SaveIntegratedSchoolRecords(SchoolRecord_tbl))
+            {
+                MessageBox.Show("Integrate Unsuccesful");
             }
         }
         //****************************************************************************************************************************

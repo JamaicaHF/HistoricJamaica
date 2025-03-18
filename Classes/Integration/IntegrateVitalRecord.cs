@@ -48,11 +48,11 @@ namespace HistoricJamaica
             {
                 MessageBox.Show("Exception Encounter during Integration: " + ex.Message);
             }
-            if (!success)
-            {
-                SetVitalRecordIdsToZeroIfNotIntegrated(VitalRecord_row, SpouseVitalRecord_row, bPersonIntegrated, bFatherIntegrated,
-                                                       bMotherIntegrated, bSpouseIntegrated, bSpouseFatherIntegrated, bSpouseMotherIntegrated);
-            }
+            //if (!success)
+            //{
+            //    SetVitalRecordIdsToZeroIfNotIntegrated(VitalRecord_row, SpouseVitalRecord_row, bPersonIntegrated, bFatherIntegrated,
+            //                                           bMotherIntegrated, bSpouseIntegrated, bSpouseFatherIntegrated, bSpouseMotherIntegrated);
+            //}
             return success;
         }
         //****************************************************************************************************************************
@@ -239,7 +239,10 @@ namespace HistoricJamaica
                 return IntegrateParents(SpouseVitalRecord_row, Person_tbl.Rows[1], bSpouseFatherIntegrated, bSpouseMotherIntegrated, integrationInfo.iSpouseId, 4, integrationInfo.iSpouseFatherId,
                                  integrationInfo.iSpouseMotherId, "Spouse Father", spouseName, spouseFatherName, spouseMotherName);
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
         //****************************************************************************************************************************
         private int IntegratePersonAndSpouse(CIntegrationInfo integrationInfo,

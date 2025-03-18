@@ -109,10 +109,6 @@ namespace SQL_Library
                 }
                 else
                 {
-                    CemeteryRecord_row[U.PersonID_col] = 0;
-                    CemeteryRecord_row[U.SpouseID_col] = 0;
-                    CemeteryRecord_row[U.FatherID_col] = 0;
-                    CemeteryRecord_row[U.MotherID_col] = 0;
                     txn.Rollback();
                     return false;
                 }
