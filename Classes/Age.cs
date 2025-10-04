@@ -16,9 +16,9 @@ namespace HistoricJamaica
 {
     public class CAge
     {
-        public int numYears = 0;
-        public int numMonths = 0;
         public int numDays = 0;
+        public int numMonths = 0;
+        public int numYears = 0;
         public CAge(string ageInOriginal)
         {
             if (string.IsNullOrEmpty(ageInOriginal))
